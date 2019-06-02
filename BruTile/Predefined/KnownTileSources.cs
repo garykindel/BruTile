@@ -47,7 +47,7 @@ namespace BruTile.Predefined
         /// <param name="tileFetcher">Option to override the web request</param>
         /// <returns>The tile source</returns>
         public static HttpTileSource Create(KnownTileSource source = KnownTileSource.OpenStreetMap, string apiKey = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null)
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, string appName=null)
         {
             switch (source)
             {
@@ -56,67 +56,68 @@ namespace BruTile.Predefined
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution);
+                        attribution: OpenStreetMapAttribution, appName: appName);
+
                 case KnownTileSource.OpenCycleMap:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 17),
                         "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution);
+                        attribution: OpenStreetMapAttribution, appName: appName);
                 case KnownTileSource.OpenCycleMapTransport:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 20),
                         "http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution);
+                        attribution: OpenStreetMapAttribution, appName:appName);
                 case KnownTileSource.BingAerial:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, new Attribution("© Microsoft"));
+                        persistentCache, tileFetcher, new Attribution("© Microsoft"), appName);
                 case KnownTileSource.BingHybrid:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, new Attribution("© Microsoft"));
+                        persistentCache, tileFetcher, new Attribution("© Microsoft"), appName);
                 case KnownTileSource.BingRoads:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher, new Attribution("© Microsoft"));
+                        persistentCache, tileFetcher, new Attribution("© Microsoft"), appName);
                 case KnownTileSource.BingAerialStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.staging.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher);
+                        persistentCache, tileFetcher, null, appName);
                 case KnownTileSource.BingHybridStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.staging.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher);
+                        persistentCache, tileFetcher, null, appName);
                 case KnownTileSource.BingRoadsStaging:
                     return new HttpTileSource(new GlobalSphericalMercator(1),
                         "http://t{s}.staging.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=517&token={k}",
                         new[] {"0", "1", "2", "3", "4", "5", "6", "7"}, apiKey, source.ToString(),
-                        persistentCache, tileFetcher);
+                        persistentCache, tileFetcher,null, appName);
                 case KnownTileSource.StamenToner:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c", "d"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution);
+                        attribution: OpenStreetMapAttribution, appName: appName);
                 case KnownTileSource.StamenTonerLite:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c", "d"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution);
+                        attribution: OpenStreetMapAttribution, appName: appName);
                 case KnownTileSource.StamenWatercolor:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png",
                         new[] {"a", "b", "c", "d"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
-                        attribution: OpenStreetMapAttribution);
+                        attribution: OpenStreetMapAttribution, appName: appName);
                 case KnownTileSource.StamenTerrain:
                     return
                         new HttpTileSource(
@@ -127,35 +128,35 @@ namespace BruTile.Predefined
                             "http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png",
                             new[] {"a", "b", "c", "d"}, name: source.ToString(),
                             persistentCache: persistentCache, tileFetcher: tileFetcher,
-                            attribution: OpenStreetMapAttribution);
+                            attribution: OpenStreetMapAttribution, appName: appName);
                 case KnownTileSource.EsriWorldTopo:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 case KnownTileSource.EsriWorldPhysical:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 8),
                         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 case KnownTileSource.EsriWorldShadedRelief:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 13),
                         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 case KnownTileSource.EsriWorldReferenceOverlay:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 13),
                         "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 case KnownTileSource.EsriWorldTransportation:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 case KnownTileSource.EsriWorldBoundariesAndPlaces:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                         "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 case KnownTileSource.EsriWorldDarkGrayBase:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 16),
                         "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher);
+                        name: source.ToString(), persistentCache: persistentCache, tileFetcher: tileFetcher, appName: appName);
                 default:
                     throw new NotSupportedException("KnownTileSource not known");
             }

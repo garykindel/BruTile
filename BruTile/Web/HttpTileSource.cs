@@ -12,15 +12,15 @@ namespace BruTile.Web
 
         public HttpTileSource(ITileSchema tileSchema, string urlFormatter, IEnumerable<string> serverNodes = null,
             string apiKey = null, string name = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, byte[]> tileFetcher = null, Attribution attribution = null)
-            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution)
+            Func<Uri, byte[]> tileFetcher = null, Attribution attribution = null, string appName= null)
+            : this(tileSchema, new BasicRequest(urlFormatter, serverNodes, apiKey), name, persistentCache, tileFetcher, attribution, appName)
         {
         }
 
         public HttpTileSource(ITileSchema tileSchema, IRequest request, string name = null,
-            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, Attribution attibution = null)
+            IPersistentCache<byte[]> persistentCache = null, Func<Uri, byte[]> tileFetcher = null, Attribution attibution = null, string appName = null)
         {
-            _provider = new HttpTileProvider(request, persistentCache, tileFetcher);
+            _provider = new HttpTileProvider(request, persistentCache, tileFetcher, appName);
             Schema = tileSchema;
             Name = name ?? string.Empty;
             Attribution = attibution ?? new Attribution();

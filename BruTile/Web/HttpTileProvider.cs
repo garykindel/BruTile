@@ -13,8 +13,9 @@ namespace BruTile.Web
         private readonly HttpClient _httpClient = new HttpClient();
 
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
-            Func<Uri, byte[]> fetchTile = null)
+            Func<Uri, byte[]> fetchTile = null, string appName = null)
         {
+            if (!String.IsNullOrWhiteSpace(appName)) _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(appName);
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = fetchTile ?? FetchTile;

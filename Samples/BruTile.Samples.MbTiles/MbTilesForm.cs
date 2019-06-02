@@ -35,7 +35,7 @@ namespace BruTile.Samples.MbTiles
             var path = Path.Combine(Path.GetTempPath(), "mapbox.haiti-terrain-grey.mbtiles");
             if (File.Exists(path))
             {
-                _source = new MbTilesTileSource(new SQLiteConnectionString(path, false));
+                _source = new MbTilesTileSource(new SQLiteConnectionString(path, false, null));
                 var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                 _mapTransform = new MapTransform(
                     new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
@@ -152,7 +152,7 @@ namespace BruTile.Samples.MbTiles
                 ofn.CheckFileExists = true;
                 if (ofn.ShowDialog() == DialogResult.OK)
                 {
-                    _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false));
+                    _source = new MbTilesTileSource(new SQLiteConnectionString(ofn.FileName, false, null));
                     var extent = _source.Schema.Extent;
                     var scale = (float)(1.1 * Math.Max(extent.Width / picMap.Width, extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
@@ -206,7 +206,7 @@ namespace BruTile.Samples.MbTiles
             {
                 if (success)
                 {
-                    _source = new MbTilesTileSource(new SQLiteConnectionString(path, false));
+                    _source = new MbTilesTileSource(new SQLiteConnectionString(path, false, null));
                     var scale = (float)(1.1 * Math.Max(_source.Schema.Extent.Width / picMap.Width, _source.Schema.Extent.Height / picMap.Height));
                     _mapTransform = new MapTransform(
                         new PointF((float)_source.Schema.Extent.CenterX, (float)_source.Schema.Extent.CenterY),
