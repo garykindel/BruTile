@@ -31,9 +31,12 @@ namespace BruTile.Predefined
         EsriWorldReferenceOverlay,
         EsriWorldTransportation,
         EsriWorldBoundariesAndPlaces,
-        EsriWorldDarkGrayBase,
-        GoogleMap,
+        EsriWorldDarkGrayBase,        
+        GoogleMap,        
+        GoogleHybrid,
+        GoogleSatellite,
         GoogleTerrain
+        //MacrostratRaster
     }
 
     public static class KnownTileSources
@@ -54,14 +57,32 @@ namespace BruTile.Predefined
         {
             switch (source)
             {
+                //case KnownTileSource.MacrostratRaster:
+                //    return new HttpTileSource(new GlobalSphericalMercator(),
+                //    "https://macrostrat.org/map-raster/{z}/{x}/{y}/bedrock/lines/",
+                //    new[] { "a", "b", "c" }, name: source.ToString(),
+                //    persistentCache: persistentCache, tileFetcher: FetchGoogleTile);
                 case KnownTileSource.GoogleMap:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}",
                             new[] { "0", "1", "2", "3" },
                             tileFetcher: FetchGoogleTile);
+
+                case KnownTileSource.GoogleHybrid:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                            "http://mt{s}.google.com/vt/lyrs=y@125&hl=en&x={x}&y={y}&z={z}",
+                            new[] { "0", "1", "2", "3" },
+                            tileFetcher: FetchGoogleTile);
+
                 case KnownTileSource.GoogleTerrain:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}",
+                            new[] { "0", "1", "2", "3" },
+                            tileFetcher: FetchGoogleTile);
+
+                case KnownTileSource.GoogleSatellite:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                            "http://mt{s}.google.com/vt/lyrs=s@125&hl=en&x={x}&y={y}&z={z}",
                             new[] { "0", "1", "2", "3" },
                             tileFetcher: FetchGoogleTile);
 
@@ -71,7 +92,6 @@ namespace BruTile.Predefined
                         new[] {"a", "b", "c"}, name: source.ToString(),
                         persistentCache: persistentCache, tileFetcher: tileFetcher,
                         attribution: OpenStreetMapAttribution, appName: appName);
-
                 case KnownTileSource.OpenCycleMap:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 17),
                         "http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
