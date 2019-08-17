@@ -26,10 +26,10 @@ namespace BruTile.Demo
             var michelinTileSource = WmtsParser.Parse(stream).First();
             Layers.Children.Add(ToRadioButton("Michelin Map", () => michelinTileSource));
 
-            Layers.Children.Add(ToRadioButton("Google Map", () => 
-                CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
-            Layers.Children.Add(ToRadioButton("Google Terrain", () => 
-                CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}")));
+            //Layers.Children.Add(ToRadioButton("Google Map", () => 
+            //    CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}")));
+            //Layers.Children.Add(ToRadioButton("Google Terrain", () => 
+            //    CreateGoogleTileSource("http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}")));
 
             Layers.Children.Add(ToRadioButton("WMS called through tile schema", TileSourceForWmsSample.Create));
 
