@@ -44,6 +44,9 @@ namespace BruTile.Predefined
         private static readonly Attribution OpenStreetMapAttribution = new Attribution(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
 
+        private static readonly Attribution GoogleMapAttribution = new Attribution(
+            "Map data ©2018 Google", "https://www.google.com/maps/about/#!/");
+
         /// <summary>
         /// Static factory method for known tile services
         /// </summary>
@@ -66,25 +69,28 @@ namespace BruTile.Predefined
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}",
                             new[] { "0", "1", "2", "3" },
-                            tileFetcher: FetchGoogleTile);
+                            tileFetcher: FetchGoogleTile,
+                            attribution: GoogleMapAttribution);
 
                 case KnownTileSource.GoogleHybrid:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=y@125&hl=en&x={x}&y={y}&z={z}",
                             new[] { "0", "1", "2", "3" },
-                            tileFetcher: FetchGoogleTile);
+                            tileFetcher: FetchGoogleTile, attribution: GoogleMapAttribution);
 
                 case KnownTileSource.GoogleTerrain:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}",
                             new[] { "0", "1", "2", "3" },
-                            tileFetcher: FetchGoogleTile);
+                            tileFetcher: FetchGoogleTile,
+                            attribution: GoogleMapAttribution); 
 
                 case KnownTileSource.GoogleSatellite:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=s@125&hl=en&x={x}&y={y}&z={z}",
                             new[] { "0", "1", "2", "3" },
-                            tileFetcher: FetchGoogleTile);
+                            tileFetcher: FetchGoogleTile,
+                            attribution: GoogleMapAttribution);
 
                 case KnownTileSource.OpenStreetMap:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 18),
