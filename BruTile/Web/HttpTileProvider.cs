@@ -15,7 +15,7 @@ namespace BruTile.Web
         public HttpTileProvider(IRequest request = null, IPersistentCache<byte[]> persistentCache = null,
             Func<Uri, byte[]> fetchTile = null, string userAgent = null)
         {
-            if (!String.IsNullOrWhiteSpace(appName)) _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(appName);
+            if (!String.IsNullOrWhiteSpace(userAgent)) _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
             _request = request ?? new NullRequest();
             PersistentCache = persistentCache ?? new NullCache();
             _fetchTile = fetchTile ?? FetchTile;
