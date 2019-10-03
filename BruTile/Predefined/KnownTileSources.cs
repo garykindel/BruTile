@@ -3,6 +3,7 @@
 using System;
 using BruTile.Cache;
 using BruTile.Web;
+using System.Net.Http;
 
 namespace BruTile.Predefined
 {
@@ -30,13 +31,19 @@ namespace BruTile.Predefined
         EsriWorldReferenceOverlay,
         EsriWorldTransportation,
         EsriWorldBoundariesAndPlaces,
-        EsriWorldDarkGrayBase
+        EsriWorldDarkGrayBase,
+        GoogleMap,
+        GoogleHybrid,
+        GoogleTerrain        
     }
 
     public static class KnownTileSources
     {
         private static readonly Attribution OpenStreetMapAttribution = new Attribution(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
+
+        private static readonly Attribution GoogleMapAttribution = new Attribution(
+            "Map data ©2018 Google", "https://www.google.com/maps/about/#!/");
 
         /// <summary>
         /// Static factory method for known tile services
@@ -52,6 +59,25 @@ namespace BruTile.Predefined
         {
             switch (source)
             {
+                case KnownTileSource.GoogleMap:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                            "http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}",
+                            new[] { "0", "1", "2", "3" },
+                            tileFetcher: FetchGoogleTile,
+                            attribution: GoogleMapAttribution);
+                case KnownTileSource.GoogleHybrid:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                            "http://mt{s}.google.com/vt/lyrs=y@125&hl=en&x={x}&y={y}&z={z}",
+                            new[] { "0", "1", "2", "3" },
+                    tileFetcher: FetchGoogleTile, 
+                    attribution: GoogleMapAttribution);
+
+                case KnownTileSource.GoogleTerrain:
+                    return new HttpTileSource(new GlobalSphericalMercator(),
+                            "http://mt{s}.google.com/vt/lyrs=t@125,r@130&hl=en&x={x}&y={y}&z={z}",
+                            new[] { "0", "1", "2", "3" },
+                            tileFetcher: FetchGoogleTile,
+                            attribution: GoogleMapAttribution);
                 case KnownTileSource.OpenStreetMap:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 18),
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -160,6 +186,16 @@ namespace BruTile.Predefined
                 default:
                     throw new NotSupportedException("KnownTileSource not known");
             }
+        }
+
+        private static byte[] FetchGoogleTile(Uri arg)
+        {
+            var httpClient = new HttpClient();
+
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Referer", "http://maps.google.com/");
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", @"Mozilla / 5.0(Windows; U; Windows NT 6.0; en - US; rv: 1.9.1.7) Gecko / 20091221 Firefox / 3.5.7");
+
+            return httpClient.GetByteArrayAsync(arg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }
