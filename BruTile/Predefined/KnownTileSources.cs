@@ -34,11 +34,15 @@ namespace BruTile.Predefined
         EsriWorldDarkGrayBase,
         GoogleMap,
         GoogleHybrid,
-        GoogleTerrain        
+        GoogleTerrain,
+        Macrostrat
     }
 
     public static class KnownTileSources
     {
+        private static readonly Attribution MacrostratAttribution = new Attribution(
+            "© Macrostrat contributors", "https://macrostrat.org/#about");
+
         private static readonly Attribution OpenStreetMapAttribution = new Attribution(
             "© OpenStreetMap contributors", "https://www.openstreetmap.org/copyright");
 
@@ -59,6 +63,12 @@ namespace BruTile.Predefined
         {
             switch (source)
             {
+                case KnownTileSource.Macrostrat:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 18),
+                           "https://tiles.macrostrat.org/carto/{z}/{x}/{y}.png",
+                           new[] { "a", "b", "c" }, name: source.ToString(),
+                           persistentCache: persistentCache, tileFetcher: tileFetcher,
+                           attribution: MacrostratAttribution, userAgent: userAgent);
                 case KnownTileSource.GoogleMap:
                     return new HttpTileSource(new GlobalSphericalMercator(),
                             "http://mt{s}.google.com/vt/lyrs=m@130&hl=en&x={x}&y={y}&z={z}",
