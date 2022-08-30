@@ -35,11 +35,15 @@ namespace BruTile.Predefined
         GoogleMap,
         GoogleHybrid,
         GoogleTerrain,
-        Macrostrat
+        Macrostrat,
+        OpenTopoMap
     }
 
     public static class KnownTileSources
     {
+        private static readonly Attribution OpenTopoMapAttribution = new Attribution(
+            "© OpenTopoMap contributors", "https://opentopomap.org/about");
+
         private static readonly Attribution MacrostratAttribution = new Attribution(
             "© Macrostrat contributors", "https://macrostrat.org/#about");
 
@@ -63,6 +67,12 @@ namespace BruTile.Predefined
         {
             switch (source)
             {
+                case KnownTileSource.OpenTopoMap:
+                    return new HttpTileSource(new GlobalSphericalMercator(0, 18),
+                           "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+                           new[] { "a", "b", "c" }, name: source.ToString(),
+                           persistentCache: persistentCache, tileFetcher: tileFetcher,
+                           attribution: OpenTopoMapAttribution, userAgent: userAgent);
                 case KnownTileSource.Macrostrat:
                     return new HttpTileSource(new GlobalSphericalMercator(0, 18),
                            "https://tiles.macrostrat.org/carto/{z}/{x}/{y}.png",
